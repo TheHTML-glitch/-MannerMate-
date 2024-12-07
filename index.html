@@ -10,139 +10,224 @@
       background-color: #f7b9c4;
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
     }
+
+    /* General Container */
     .container {
-      width: 400px;
-      background-color: white;
+      width: 90%;
+      max-width: 800px;
+      margin: 50px auto;
+      background-color: #fff;
       padding: 20px;
-      border-radius: 8px;
+      border-radius: 12px;
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
       text-align: center;
     }
-    .container h1 {
+
+    /* Header */
+    .header {
+      font-size: 36px;
       color: #333;
-      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .subheader {
+      font-size: 18px;
+      color: #555;
       margin-bottom: 20px;
     }
-    .form-group {
-      margin: 15px 0;
+
+    /* Login Section */
+    .login-container {
+      margin: 30px auto;
     }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
     .form-group label {
       display: block;
-      font-size: 14px;
-      color: #555;
+      text-align: left;
       margin-bottom: 5px;
+      font-weight: bold;
     }
-    .form-group input {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
+
+    .form-group input,
     .form-group select {
       width: 100%;
       padding: 10px;
-      font-size: 14px;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 8px;
     }
-    .button {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
+
+    .btn {
+      background-color: #f7b9c4;
+      color: #fff;
       border: none;
-      border-radius: 4px;
+      padding: 10px 15px;
+      border-radius: 8px;
       cursor: pointer;
-      margin-top: 10px;
+      font-size: 16px;
     }
-    .button:hover {
-      background-color: #0056b3;
+
+    .btn:hover {
+      background-color: #f798aa;
     }
-    .dashboard {
+
+    .dashboard-container {
+      margin-top: 20px;
+    }
+
+    /* Student Dashboard */
+    .student-dashboard {
+      background-color: #ffe4e1;
+      padding: 20px;
+      border-radius: 12px;
       text-align: left;
     }
-    .dashboard h2 {
-      font-size: 20px;
-      margin: 20px 0;
-      color: #333;
+
+    .student-dashboard h2 {
+      font-size: 28px;
+      color: #ff6347;
     }
-    .points {
-      font-size: 18px;
+
+    .student-dashboard .points {
+      font-size: 22px;
       color: #007bff;
-      text-align: right;
-      margin-bottom: 20px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .fun-section {
+      margin-top: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .fun-section img {
+      width: 100px;
+      margin: 10px;
+    }
+
+    .emoji {
+      font-size: 32px;
+      margin: 5px;
+    }
+
+    /* Teacher Dashboard */
+    .teacher-dashboard {
+      background-color: #e6ffe6;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .teacher-dashboard h2 {
+      font-size: 28px;
+      color: #32cd32;
+    }
+
+    .teacher-dashboard .form-group {
+      margin-bottom: 15px;
+    }
+
+    .teacher-dashboard .form-group input {
+      padding: 8px;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
-  <div class="container" id="main">
-    <h1>MannerMate</h1>
-    <div id="signIn">
-      <h2>Sign In</h2>
-      <form>
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" placeholder="Enter your email">
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Enter your password">
-        </div>
-        <div class="form-group">
-          <label for="role">Sign in as:</label>
-          <select id="role">
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-          </select>
-        </div>
-        <button class="button" type="button" onclick="signIn()">Sign In</button>
-      </form>
-    </div>
-    <div id="studentDashboard" style="display: none;">
-      <div class="points">Your Current Points: <span id="studentPoints">100</span></div>
-      <div class="dashboard">
-        <h2>Welcome, Student!</h2>
-        <p>Here you can see your points and track your progress!</p>
+  <div class="container" id="loginPage">
+    <h1 class="header">Welcome to MannerMate</h1>
+    <p class="subheader">Please sign in to access your dashboard.</p>
+
+    <div class="login-container">
+      <div class="form-group">
+        <label for="role">Sign in as:</label>
+        <select id="role" required>
+          <option value="" disabled selected>Select your role</option>
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+        </select>
       </div>
-    </div>
-    <div id="teacherDashboard" style="display: none;">
-      <h2>Welcome, Teacher!</h2>
-      <p>Manage your students' points below:</p>
-      <form>
-        <div class="form-group">
-          <label for="studentName">Student Name</label>
-          <input type="text" id="studentName" placeholder="Enter student name">
-        </div>
-        <div class="form-group">
-          <label for="points">Update Points</label>
-          <input type="number" id="points" placeholder="Enter points">
-        </div>
-        <button class="button" type="button" onclick="updatePoints()">Update Points</button>
-      </form>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Enter your password" required>
+      </div>
+
+      <button class="btn" onclick="login()">Sign In</button>
     </div>
   </div>
+
+  <!-- Student Dashboard -->
+  <div class="container" id="studentDashboard" style="display: none;">
+    <h1 class="header">Student Dashboard</h1>
+    <p class="points">Your Current Points: <span id="studentPoints">100</span></p>
+
+    <div class="student-dashboard">
+      <h2>Welcome, Student! 🎓</h2>
+      <div class="fun-section">
+        <h3>Fun Section ✨</h3>
+        <p>Check out your rewards and enjoy! 🏆</p>
+        <img src="https://via.placeholder.com/100" alt="School Bag">
+        <img src="https://via.placeholder.com/100" alt="Books">
+        <span class="emoji">📚</span>
+        <span class="emoji">🎉</span>
+        <span class="emoji">💡</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Teacher Dashboard -->
+  <div class="container" id="teacherDashboard" style="display: none;">
+    <h1 class="header">Teacher Dashboard</h1>
+    <div class="teacher-dashboard">
+      <h2>Manage Student Points 🧑‍🏫</h2>
+      <div class="form-group">
+        <label for="studentName">Student Name:</label>
+        <input type="text" id="studentName" placeholder="Enter student name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="updatePoints">Update Points:</label>
+        <input type="number" id="updatePoints" placeholder="Enter new points" required>
+      </div>
+
+      <button class="btn" onclick="updatePoints()">Update Points</button>
+    </div>
+  </div>
+
   <script>
-    function signIn() {
+    function login() {
       const role = document.getElementById("role").value;
-      document.getElementById("signIn").style.display = "none";
       if (role === "student") {
+        document.getElementById("loginPage").style.display = "none";
         document.getElementById("studentDashboard").style.display = "block";
-      } else {
+      } else if (role === "teacher") {
+        document.getElementById("loginPage").style.display = "none";
         document.getElementById("teacherDashboard").style.display = "block";
+      } else {
+        alert("Please select a role.");
       }
     }
 
     function updatePoints() {
-      const studentPoints = document.getElementById("points").value;
-      document.getElementById("studentPoints").textContent = studentPoints;
-      alert("Points updated successfully!");
+      const points = document.getElementById("updatePoints").value;
+      if (points) {
+        document.getElementById("studentPoints").innerText = points;
+        alert("Points updated successfully!");
+      } else {
+        alert("Please enter points to update.");
+      }
     }
   </script>
 </body>
