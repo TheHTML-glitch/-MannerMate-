@@ -155,8 +155,8 @@
       </div>
 
       <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" placeholder="Enter your email" required>
+        <label for="username">Username:</label>
+        <input type="text" id="username" placeholder="Enter your username" required>
       </div>
 
       <div class="form-group">
@@ -209,14 +209,15 @@
   <script>
     function login() {
       const role = document.getElementById("role").value;
-      if (role === "student") {
+      const username = document.getElementById("username").value;
+      if (role === "student" && username) {
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("studentDashboard").style.display = "block";
-      } else if (role === "teacher") {
+      } else if (role === "teacher" && username) {
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("teacherDashboard").style.display = "block";
       } else {
-        alert("Please select a role.");
+        alert("Please select a role and enter your username.");
       }
     }
 
