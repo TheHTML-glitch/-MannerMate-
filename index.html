@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MannerMate</title>
   <style>
+    /* Basic Style */
     body {
       font-family: 'Trebuchet MS', sans-serif;
       background-color: #f7b9c4;
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
     }
 
-    /* General Container */
+    /* Container */
     .container {
       width: 90%;
       max-width: 800px;
@@ -22,6 +24,7 @@
       border-radius: 12px;
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
       text-align: center;
+      transition: all 0.3s;
     }
 
     /* Header */
@@ -29,36 +32,14 @@
       font-size: 36px;
       color: #333;
       font-weight: bold;
+      transition: all 0.3s;
     }
 
     .subheader {
       font-size: 18px;
       color: #555;
       margin-bottom: 20px;
-    }
-
-    /* Login Section */
-    .login-container {
-      margin: 30px auto;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      text-align: left;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      transition: all 0.3s;
     }
 
     .btn {
@@ -69,167 +50,198 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 16px;
+      transition: all 0.3s;
     }
 
     .btn:hover {
       background-color: #f798aa;
     }
 
-    .dashboard-container {
-      margin-top: 20px;
-    }
-
-    /* Student Dashboard */
-    .student-dashboard {
+    /* Dashboard - Fun & Interactive */
+    .student-dashboard, .teacher-dashboard {
       background-color: #ffe4e1;
       padding: 20px;
       border-radius: 12px;
-      text-align: left;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.3s;
     }
 
-    .student-dashboard h2 {
+    .student-dashboard h2, .teacher-dashboard h2 {
       font-size: 28px;
       color: #ff6347;
+      margin-top: 20px;
     }
 
-    .student-dashboard .points {
-      font-size: 22px;
+    .points {
+      font-size: 24px;
       color: #007bff;
       font-weight: bold;
       margin-top: 10px;
     }
 
+    /* Interactive Fun Section */
     .fun-section {
-      margin-top: 20px;
       background-color: #fff;
-      border-radius: 8px;
       padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
       box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
     }
 
     .fun-section img {
-      width: 100px;
+      width: 150px;
       margin: 10px;
+      transition: all 0.3s;
     }
 
-    .emoji {
-      font-size: 32px;
-      margin: 5px;
+    .fun-section img:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+
+    /* Animations */
+    .animate-text {
+      font-size: 24px;
+      color: #ff6347;
+      font-weight: bold;
+      animation: animate 2s infinite;
+    }
+
+    @keyframes animate {
+      0% { color: #ff6347; }
+      50% { color: #008000; }
+      100% { color: #ff6347; }
+    }
+
+    .scroll-content {
+      height: 500px;
+      overflow-y: scroll;
+      margin-top: 20px;
     }
 
     /* Teacher Dashboard */
-    .teacher-dashboard {
-      background-color: #e6ffe6;
-      padding: 20px;
-      border-radius: 12px;
+    .teacher-dashboard input,
+    .teacher-dashboard select {
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
 
-    .teacher-dashboard h2 {
-      font-size: 28px;
-      color: #32cd32;
+    /* Fun Buttons */
+    .fun-btn {
+      background-color: #ff6347;
+      color: white;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
     }
 
-    .teacher-dashboard .form-group {
-      margin-bottom: 15px;
-    }
-
-    .teacher-dashboard .form-group input {
-      padding: 8px;
-      font-size: 16px;
+    .fun-btn:hover {
+      background-color: #ff4500;
     }
   </style>
 </head>
 <body>
-  <div class="container" id="loginPage">
-    <h1 class="header">Welcome to MannerMate</h1>
-    <p class="subheader">Please sign in to access your dashboard.</p>
 
-    <div class="login-container">
-      <div class="form-group">
-        <label for="role">Sign in as:</label>
-        <select id="role" required>
-          <option value="" disabled selected>Select your role</option>
-          <option value="student">Student</option>
-          <option value="teacher">Teacher</option>
-        </select>
-      </div>
+<!-- Login Page -->
+<div class="container" id="loginPage">
+  <h1 class="header">Welcome to MannerMate</h1>
+  <p class="subheader">Please sign in to access your dashboard.</p>
 
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" placeholder="Enter your username" required>
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" placeholder="Enter your password" required>
-      </div>
-
-      <button class="btn" onclick="login()">Sign In</button>
-    </div>
+  <div>
+    <label for="role">Sign in as:</label>
+    <select id="role" required>
+      <option value="" disabled selected>Select your role</option>
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+    </select>
   </div>
 
-  <!-- Student Dashboard -->
-  <div class="container" id="studentDashboard" style="display: none;">
-    <h1 class="header">Student Dashboard</h1>
-    <p class="points">Your Current Points: <span id="studentPoints">100</span></p>
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" id="username" placeholder="Enter your username" required>
+  </div>
 
-    <div class="student-dashboard">
-      <h2>Welcome, Student! 🎓</h2>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter your password" required>
+  </div>
+
+  <button class="btn" onclick="login()">Sign In</button>
+</div>
+
+<!-- Student Dashboard -->
+<div class="container" id="studentDashboard" style="display: none;">
+  <h1 class="header">Student Dashboard</h1>
+  <p class="points">Your Current Points: <span id="studentPoints">100</span></p>
+
+  <div class="student-dashboard">
+    <h2>Welcome, Student! 🎓</h2>
+    <div class="scroll-content">
       <div class="fun-section">
-        <h3>Fun Section ✨</h3>
-        <p>Check out your rewards and enjoy! 🏆</p>
-        <img src="https://via.placeholder.com/100" alt="School Bag">
-        <img src="https://via.placeholder.com/100" alt="Books">
-        <span class="emoji">📚</span>
-        <span class="emoji">🎉</span>
-        <span class="emoji">💡</span>
+        <h3 class="animate-text">Check out your fun rewards 🎉</h3>
+        <img src="https://via.placeholder.com/150" alt="Reward 1">
+        <img src="https://via.placeholder.com/150" alt="Reward 2">
+        <img src="https://via.placeholder.com/150" alt="Reward 3">
+      </div>
+
+      <div class="fun-section">
+        <h3 class="animate-text">Your Fun Activities 🚀</h3>
+        <button class="fun-btn" onclick="showAlert('You’ve unlocked a new game! 🎮')">Unlock New Game</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Teacher Dashboard -->
-  <div class="container" id="teacherDashboard" style="display: none;">
-    <h1 class="header">Teacher Dashboard</h1>
-    <div class="teacher-dashboard">
-      <h2>Manage Student Points 🧑‍🏫</h2>
-      <div class="form-group">
-        <label for="studentName">Student Name:</label>
-        <input type="text" id="studentName" placeholder="Enter student name" required>
-      </div>
+<!-- Teacher Dashboard -->
+<div class="container" id="teacherDashboard" style="display: none;">
+  <h1 class="header">Teacher Dashboard</h1>
 
-      <div class="form-group">
-        <label for="updatePoints">Update Points:</label>
-        <input type="number" id="updatePoints" placeholder="Enter new points" required>
-      </div>
+  <div class="teacher-dashboard">
+    <h2>Manage Student Points 🧑‍🏫</h2>
 
-      <button class="btn" onclick="updatePoints()">Update Points</button>
-    </div>
+    <input type="text" id="studentName" placeholder="Enter student name" required>
+    <input type="number" id="updatePoints" placeholder="Enter new points" required>
+    <button class="btn" onclick="updatePoints()">Update Points</button>
   </div>
+</div>
 
-  <script>
-    function login() {
-      const role = document.getElementById("role").value;
-      const username = document.getElementById("username").value;
-      if (role === "student" && username) {
-        document.getElementById("loginPage").style.display = "none";
-        document.getElementById("studentDashboard").style.display = "block";
-      } else if (role === "teacher" && username) {
-        document.getElementById("loginPage").style.display = "none";
-        document.getElementById("teacherDashboard").style.display = "block";
-      } else {
-        alert("Please select a role and enter your username.");
-      }
-    }
+<script>
+  function login() {
+    const role = document.getElementById("role").value;
+    const username = document.getElementById("username").value;
 
-    function updatePoints() {
-      const points = document.getElementById("updatePoints").value;
-      if (points) {
-        document.getElementById("studentPoints").innerText = points;
-        alert("Points updated successfully!");
-      } else {
-        alert("Please enter points to update.");
-      }
+    if (role === "student" && username) {
+      document.getElementById("loginPage").style.display = "none";
+      document.getElementById("studentDashboard").style.display = "block";
+    } else if (role === "teacher" && username) {
+      document.getElementById("loginPage").style.display = "none";
+      document.getElementById("teacherDashboard").style.display = "block";
+    } else {
+      alert("Please select a role and enter your username.");
     }
-  </script>
+  }
+
+  function updatePoints() {
+    const points = document.getElementById("updatePoints").value;
+    if (points) {
+      document.getElementById("studentPoints").innerText = points;
+      alert("Points updated successfully!");
+    } else {
+      alert("Please enter points to update.");
+    }
+  }
+
+  function showAlert(message) {
+    alert(message);
+  }
+</script>
 </body>
 </html>
