@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MannerMate</title>
+  <style>
+    body {
+      font-family: 'Trebuchet MS', sans-serif;
+      background-color: #f7b9c4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      width: 400px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    .container h1 {
+      color: #333;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin: 15px 0;
+    }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 5px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+    .dashboard {
+      text-align: left;
+    }
+    .dashboard h2 {
+      font-size: 20px;
+      margin: 20px 0;
+      color: #333;
+    }
+    .points {
+      font-size: 18px;
+      color: #007bff;
+      text-align: right;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="main">
+    <h1>MannerMate</h1>
+    <div id="signIn">
+      <h2>Sign In</h2>
+      <form>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password">
+        </div>
+        <div class="form-group">
+          <label for="role">Sign in as:</label>
+          <select id="role">
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+          </select>
+        </div>
+        <button class="button" type="button" onclick="signIn()">Sign In</button>
+      </form>
+    </div>
+    <div id="studentDashboard" style="display: none;">
+      <div class="points">Your Current Points: <span id="studentPoints">100</span></div>
+      <div class="dashboard">
+        <h2>Welcome, Student!</h2>
+        <p>Here you can see your points and track your progress!</p>
+      </div>
+    </div>
+    <div id="teacherDashboard" style="display: none;">
+      <h2>Welcome, Teacher!</h2>
+      <p>Manage your students' points below:</p>
+      <form>
+        <div class="form-group">
+          <label for="studentName">Student Name</label>
+          <input type="text" id="studentName" placeholder="Enter student name">
+        </div>
+        <div class="form-group">
+          <label for="points">Update Points</label>
+          <input type="number" id="points" placeholder="Enter points">
+        </div>
+        <button class="button" type="button" onclick="updatePoints()">Update Points</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    function signIn() {
+      const role = document.getElementById("role").value;
+      document.getElementById("signIn").style.display = "none";
+      if (role === "student") {
+        document.getElementById("studentDashboard").style.display = "block";
+      } else {
+        document.getElementById("teacherDashboard").style.display = "block";
+      }
+    }
+
+    function updatePoints() {
+      const studentPoints = document.getElementById("points").value;
+      document.getElementById("studentPoints").textContent = studentPoints;
+      alert("Points updated successfully!");
+    }
+  </script>
+</body>
+</html>
