@@ -3,220 +3,193 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MannerMate - Student Dashboard</title>
+  <title>MannerMate</title>
   <style>
+    /* General Styles */
     body {
       font-family: "Trebuchet MS", sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f9e4c9;
+      background-color: #f7b9c4;
+      color: #333;
     }
-    .navbar {
-      background-color: #ffa726;
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: white;
-    }
-    .navbar h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-    .content {
-      padding: 20px;
+    h1, h2, h3 {
       text-align: center;
     }
-    .dashboard {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-    .card {
-      background-color: white;
-      border-radius: 10px;
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
       padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      width: 250px;
-      height: 150px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    .button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: center;
+      color: white;
+      background-color: #f76c6c;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
       cursor: pointer;
-      transition: transform 0.3s ease;
     }
-    .card:hover {
-      transform: scale(1.05);
+    .button:hover {
+      background-color: #ff5252;
     }
-    .card img {
-      width: 50px;
-      height: 50px;
-      margin-bottom: 10px;
+    .form-group {
+      margin-bottom: 15px;
     }
-    .card h3 {
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .dashboard {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .points-display {
+      background-color: #ffcccb;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 10px;
       font-size: 18px;
-      color: #ffa726;
+      font-weight: bold;
     }
-    .game-section {
-      display: none;
+    .game-box {
+      padding: 20px;
+      border: 2px dashed #f76c6c;
+      border-radius: 10px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="navbar">
-    <h1>MannerMate - Dashboard</h1>
-    <p>Welcome, Student!</p>
+  <!-- Landing Page -->
+  <div id="landing-page" class="container">
+    <h1>Welcome to MannerMate</h1>
+    <button class="button" onclick="openLogin('teacher')">Log In as Teacher</button>
+    <button class="button" onclick="openLogin('student')">Log In as Student</button>
   </div>
 
-  <div class="content">
+  <!-- Login Page -->
+  <div id="login-page" class="container" style="display: none;">
+    <h2 id="login-title">Login</h2>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter your username">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password">
+    </div>
+    <button class="button" onclick="login()">Log In</button>
+    <button class="button" onclick="goBack()">Back</button>
+  </div>
+
+  <!-- Teacher Dashboard -->
+  <div id="teacher-dashboard" class="container" style="display: none;">
+    <h2>Teacher Dashboard</h2>
+    <div class="form-group">
+      <label for="student-points">Student Username</label>
+      <input type="text" id="student-username" placeholder="Enter student username">
+    </div>
+    <div class="form-group">
+      <label for="points">Points</label>
+      <input type="number" id="points" placeholder="Add or reduce points">
+    </div>
+    <button class="button" onclick="updatePoints()">Update Points</button>
     <div class="dashboard">
-      <div class="card" onclick="openSection('profile')">
-        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Profile">
-        <h3>Profile</h3>
-      </div>
-      <div class="card" onclick="openSection('assignments')">
-        <img src="https://cdn-icons-png.flaticon.com/512/847/847932.png" alt="Assignments">
-        <h3>Assignments</h3>
-      </div>
-      <div class="card" onclick="openSection('game')">
-        <img src="https://cdn-icons-png.flaticon.com/512/847/847971.png" alt="Game">
-        <h3>Game</h3>
-      </div>
+      <h3>Student Points Updated Successfully!</h3>
     </div>
+  </div>
 
-    <div id="profile" class="game-section">
-      <h2>Student Profile</h2>
-      <p>Here is your profile information.</p>
-    </div>
-
-    <div id="assignments" class="game-section">
-      <h2>Your Assignments</h2>
-      <p>Here are your current assignments.</p>
-    </div>
-
-    <div id="game" class="game-section">
-      <div class="game-dashboard">
-        <h2>Choose Your Subject</h2>
-        <button class="game-btn" onclick="startGame('Math')">Math</button>
-        <button class="game-btn" onclick="startGame('Science')">Science</button>
-        <button class="game-btn" onclick="startGame('English')">English</button>
-        <button class="game-btn" onclick="startGame('History')">History</button>
-      </div>
-
-      <div class="quiz-container" id="quiz">
-        <h3 id="subjectTitle"></h3>
-        <p class="question" id="question">Loading question...</p>
-        <div class="progress-bar">
-          <div class="progress" id="progress"></div>
-        </div>
-        <p class="timer" id="timer">Time Left: 10s</p>
-        <button class="answer-btn" onclick="checkAnswer(1)">Option 1</button>
-        <button class="answer-btn" onclick="checkAnswer(2)">Option 2</button>
-        <button class="answer-btn" onclick="checkAnswer(3)">Option 3</button>
-        <button class="answer-btn" onclick="checkAnswer(4)">Option 4</button>
-        <p class="feedback" id="feedback"></p>
-        <div class="fact-box" id="factBox"></div>
-      </div>
+  <!-- Student Dashboard -->
+  <div id="student-dashboard" class="container" style="display: none;">
+    <h2>Welcome, Student!</h2>
+    <div class="points-display" id="student-points-display">Your Current Points: 0</div>
+    <button class="button" onclick="startGame()">Play Educational Game</button>
+    <div id="game-container" class="game-box" style="display: none;">
+      <p id="game-question">What is 5 + 3?</p>
+      <button class="button" onclick="checkAnswer(8)">8</button>
+      <button class="button" onclick="checkAnswer(10)">10</button>
     </div>
   </div>
 
   <script>
-    const sections = document.querySelectorAll(".game-section");
+    // Variables
+    let currentRole = '';
+    let studentPoints = 0;
 
-    function openSection(sectionId) {
-      sections.forEach(section => section.style.display = "none");
-      document.getElementById(sectionId).style.display = "block";
+    // Open Login
+    function openLogin(role) {
+      currentRole = role;
+      document.getElementById('landing-page').style.display = 'none';
+      document.getElementById('login-page').style.display = 'block';
+      document.getElementById('login-title').innerText = `Login as ${role.charAt(0).toUpperCase() + role.slice(1)}`;
     }
 
-    let points = 100;
-    let currentQuestionIndex = 0;
-    let selectedSubject = "";
-    let timer;
-    const timerDuration = 10;
-    let timeLeft = timerDuration;
+    // Login Function
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
 
-    const quizData = {
-      Math: [
-        { question: "What is 5 + 3?", options: ["6", "8", "7", "9"], correct: 2, fact: "8 is the sum of 5 and 3." },
-        { question: "What is 10 - 4?", options: ["6", "5", "7", "8"], correct: 1, fact: "10 minus 4 equals 6." },
-      ],
-      Science: [
-        { question: "What planet is closest to the Sun?", options: ["Mars", "Venus", "Mercury", "Earth"], correct: 3, fact: "Mercury is the closest planet to the Sun!" },
-        { question: "What is the chemical symbol for water?", options: ["O2", "H2O", "CO2", "H2"], correct: 2, fact: "Water's chemical symbol is H2O." },
-      ],
-    };
-
-    function startGame(subject) {
-      selectedSubject = subject;
-      currentQuestionIndex = 0;
-      document.querySelector(".game-dashboard").style.display = "none";
-      document.getElementById("quiz").style.display = "block";
-      document.getElementById("subjectTitle").innerText = `${subject} Quiz`;
-      loadQuestion();
-    }
-
-    function loadQuestion() {
-      const questionObj = quizData[selectedSubject][currentQuestionIndex];
-      document.getElementById("question").innerText = questionObj.question;
-      const answerButtons = document.querySelectorAll(".answer-btn");
-      answerButtons.forEach((btn, index) => {
-        btn.innerText = questionObj.options[index];
-      });
-      document.getElementById("progress").style.width = `${
-        (currentQuestionIndex / quizData[selectedSubject].length) * 100
-      }%`;
-      resetTimer();
-    }
-
-    function resetTimer() {
-      clearInterval(timer);
-      timeLeft = timerDuration;
-      document.getElementById("timer").innerText = `Time Left: ${timeLeft}s`;
-      timer = setInterval(() => {
-        timeLeft--;
-        document.getElementById("timer").innerText = `Time Left: ${timeLeft}s`;
-        if (timeLeft <= 0) {
-          clearInterval(timer);
-          moveToNextQuestion();
+      if (username && password) {
+        if (currentRole === 'teacher') {
+          document.getElementById('login-page').style.display = 'none';
+          document.getElementById('teacher-dashboard').style.display = 'block';
+        } else {
+          document.getElementById('login-page').style.display = 'none';
+          document.getElementById('student-dashboard').style.display = 'block';
         }
-      }, 1000);
-    }
-
-    function checkAnswer(selectedOption) {
-      clearInterval(timer);
-      const questionObj = quizData[selectedSubject][currentQuestionIndex];
-      const feedback = document.getElementById("feedback");
-      const factBox = document.getElementById("factBox");
-      if (selectedOption === questionObj.correct) {
-        points++;
-        feedback.innerText = "🎉 Correct!";
-        feedback.className = "feedback correct";
-        factBox.innerText = `Fun Fact: ${questionObj.fact}`;
       } else {
-        feedback.innerText = "❌ Incorrect!";
-        feedback.className = "feedback wrong";
-        factBox.innerText = `Hint: ${questionObj.fact}`;
-      }
-      setTimeout(moveToNextQuestion, 3000);
-    }
-
-    function moveToNextQuestion() {
-      document.getElementById("feedback").innerText = "";
-      document.getElementById("factBox").innerText = "";
-      currentQuestionIndex++;
-      if (currentQuestionIndex < quizData[selectedSubject].length) {
-        loadQuestion();
-      } else {
-        endGame();
+        alert('Please enter both username and password!');
       }
     }
 
-    function endGame() {
-      document.getElementById("quiz").innerHTML = `<h2>Quiz Complete!</h2><p>Your Score: ${points}</p>`;
+    // Go Back
+    function goBack() {
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('landing-page').style.display = 'block';
+    }
+
+    // Update Points (Teacher)
+    function updatePoints() {
+      const points = parseInt(document.getElementById('points').value);
+      if (!isNaN(points)) {
+        studentPoints += points;
+        alert('Points updated successfully!');
+      } else {
+        alert('Enter a valid number for points!');
+      }
+    }
+
+    // Start Game (Student)
+    function startGame() {
+      document.getElementById('game-container').style.display = 'block';
+    }
+
+    // Check Answer
+    function checkAnswer(answer) {
+      if (answer === 8) {
+        studentPoints += 1;
+        alert('Correct! +1 point added.');
+        document.getElementById('student-points-display').innerText = `Your Current Points: ${studentPoints}`;
+      } else {
+        alert('Incorrect! Try again.');
+      }
+      document.getElementById('game-container').style.display = 'none';
     }
   </script>
 </body>
 </html>
-
