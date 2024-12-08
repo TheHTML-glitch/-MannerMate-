@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MannerMate - Student and Teacher Dashboard</title>
+  <title>MannerMate - Student Dashboard</title>
   <style>
     body {
       font-family: "Trebuchet MS", sans-serif;
@@ -62,133 +62,15 @@
     .game-section {
       display: none;
     }
-    .game-dashboard {
-      margin-top: 20px;
-    }
-    .game-btn {
-      background-color: #ffa726;
-      color: white;
-      font-size: 18px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin: 10px;
-    }
-    .game-btn:hover {
-      background-color: #f57c00;
-    }
-    .quiz-container {
-      margin-top: 20px;
-    }
-    .question {
-      font-size: 20px;
-    }
-    .progress-bar {
-      background-color: #ddd;
-      height: 10px;
-      width: 100%;
-      margin: 10px 0;
-      border-radius: 5px;
-    }
-    .progress {
-      background-color: #ffa726;
-      height: 100%;
-      width: 0;
-      border-radius: 5px;
-    }
-    .timer {
-      font-size: 18px;
-    }
-    .answer-btn {
-      background-color: #ffa726;
-      color: white;
-      font-size: 16px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      margin: 5px;
-      cursor: pointer;
-    }
-    .answer-btn:hover {
-      background-color: #f57c00;
-    }
-    .feedback {
-      margin-top: 10px;
-      font-size: 18px;
-    }
-    .correct {
-      color: green;
-    }
-    .wrong {
-      color: red;
-    }
-    .fact-box {
-      font-size: 16px;
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    .login-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f9e4c9;
-    }
-    .login-form {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    .login-form h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-    .login-form input {
-      padding: 10px;
-      margin: 10px 0;
-      width: 250px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    .login-form button {
-      background-color: #ffa726;
-      color: white;
-      font-size: 18px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .login-form button:hover {
-      background-color: #f57c00;
-    }
   </style>
 </head>
 <body>
-  <!-- Login Section -->
-  <div id="loginSection" class="login-container">
-    <div class="login-form">
-      <h2>Sign In</h2>
-      <input type="text" id="username" placeholder="Username">
-      <input type="password" id="password" placeholder="Password">
-      <button onclick="signIn()">Sign In</button>
-    </div>
-  </div>
-
-  <!-- Navbar for Dashboards -->
-  <div id="navbar" class="navbar" style="display:none;">
+  <div class="navbar">
     <h1>MannerMate - Dashboard</h1>
-    <button onclick="logout()">Logout</button>
+    <p>Welcome, Student!</p>
   </div>
 
-  <!-- Student Dashboard -->
-  <div id="studentDashboard" class="content" style="display:none;">
+  <div class="content">
     <div class="dashboard">
       <div class="card" onclick="openSection('profile')">
         <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Profile">
@@ -240,17 +122,15 @@
     </div>
   </div>
 
-  <!-- Teacher Dashboard -->
-  <div id="teacherDashboard" class="content" style="display:none;">
-    <h2>Welcome, Teacher!</h2>
-    <p>You can manage assignments and student progress here.</p>
-  </div>
-
   <script>
-    let userRole = "";
-    let username = "";
-    let password = "";
-    let points = 0;
+    const sections = document.querySelectorAll(".game-section");
+
+    function openSection(sectionId) {
+      sections.forEach(section => section.style.display = "none");
+      document.getElementById(sectionId).style.display = "block";
+    }
+
+    let points = 100;
     let currentQuestionIndex = 0;
     let selectedSubject = "";
     let timer;
@@ -266,61 +146,14 @@
         { question: "What planet is closest to the Sun?", options: ["Mars", "Venus", "Mercury", "Earth"], correct: 3, fact: "Mercury is the closest planet to the Sun!" },
         { question: "What is the chemical symbol for water?", options: ["O2", "H2O", "CO2", "H2"], correct: 2, fact: "Water's chemical symbol is H2O." },
       ],
-      English: [
-        { question: "Which is the correct spelling?", options: ["Definately", "Definitely", "Definitly", "Definately"], correct: 2, fact: "Definitely is the correct spelling." },
-      ],
-      History: [
-        { question: "Who was the first President of the USA?", options: ["George Washington", "Abraham Lincoln", "Thomas Jefferson", "John Adams"], correct: 1, fact: "George Washington was the first President." },
-      ],
     };
-
-    function signIn() {
-      username = document.getElementById("username").value;
-      password = document.getElementById("password").value;
-      if (username === "student" && password === "student123") {
-        userRole = "student";
-        showDashboard();
-      } else if (username === "teacher" && password === "teacher123") {
-        userRole = "teacher";
-        showDashboard();
-      } else {
-        alert("Invalid credentials!");
-      }
-    }
-
-    function showDashboard() {
-      document.getElementById("loginSection").style.display = "none";
-      document.getElementById("navbar").style.display = "block";
-
-      if (userRole === "student") {
-        document.getElementById("studentDashboard").style.display = "block";
-      } else {
-        document.getElementById("teacherDashboard").style.display = "block";
-      }
-    }
-
-    function logout() {
-      userRole = "";
-      username = "";
-      password = "";
-      document.getElementById("loginSection").style.display = "flex";
-      document.getElementById("navbar").style.display = "none";
-      document.getElementById("studentDashboard").style.display = "none";
-      document.getElementById("teacherDashboard").style.display = "none";
-    }
-
-    function openSection(sectionId) {
-      const sections = document.querySelectorAll(".game-section");
-      sections.forEach(section => section.style.display = "none");
-      document.getElementById(sectionId).style.display = "block";
-    }
 
     function startGame(subject) {
       selectedSubject = subject;
       currentQuestionIndex = 0;
       document.querySelector(".game-dashboard").style.display = "none";
       document.getElementById("quiz").style.display = "block";
-      document.getElementById("subjectTitle").innerText = `${subject} Quiz`;
+      document.getElementById("subjectTitle").innerText = ${subject} Quiz;
       loadQuestion();
     }
 
@@ -331,19 +164,19 @@
       answerButtons.forEach((btn, index) => {
         btn.innerText = questionObj.options[index];
       });
-      document.getElementById("progress").style.width = `${
+      document.getElementById("progress").style.width = ${
         (currentQuestionIndex / quizData[selectedSubject].length) * 100
-      }%`;
+      }%;
       resetTimer();
     }
 
     function resetTimer() {
       clearInterval(timer);
       timeLeft = timerDuration;
-      document.getElementById("timer").innerText = `Time Left: ${timeLeft}s`;
+      document.getElementById("timer").innerText = Time Left: ${timeLeft}s;
       timer = setInterval(() => {
         timeLeft--;
-        document.getElementById("timer").innerText = `Time Left: ${timeLeft}s`;
+        document.getElementById("timer").innerText = Time Left: ${timeLeft}s;
         if (timeLeft <= 0) {
           clearInterval(timer);
           moveToNextQuestion();
@@ -360,11 +193,11 @@
         points++;
         feedback.innerText = "🎉 Correct!";
         feedback.className = "feedback correct";
-        factBox.innerText = `Fun Fact: ${questionObj.fact}`;
+        factBox.innerText = Fun Fact: ${questionObj.fact};
       } else {
         feedback.innerText = "❌ Incorrect!";
         feedback.className = "feedback wrong";
-        factBox.innerText = `Hint: ${questionObj.fact}`;
+        factBox.innerText = Hint: ${questionObj.fact};
       }
       setTimeout(moveToNextQuestion, 3000);
     }
@@ -381,7 +214,7 @@
     }
 
     function endGame() {
-      document.getElementById("quiz").innerHTML = `<h2>Quiz Complete!</h2><p>Your Score: ${points}</p>`;
+      document.getElementById("quiz").innerHTML = <h2>Quiz Complete!</h2><p>Your Score: ${points}</p>;
     }
   </script>
 </body>
