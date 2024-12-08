@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MannerMate - Student Dashboard</title>
+  <title>MannerMate Game</title>
   <style>
     body {
       font-family: "Trebuchet MS", sans-serif;
+      background-color: #f9e4c9;
       margin: 0;
       padding: 0;
-      background-color: #f9e4c9;
     }
     .navbar {
       background-color: #ffa726;
@@ -18,123 +18,141 @@
       justify-content: space-between;
       align-items: center;
       color: white;
+      border-bottom: 2px solid #ff9800;
     }
     .navbar h1 {
       margin: 0;
       font-size: 24px;
     }
     .content {
-      padding: 20px;
       text-align: center;
+      padding: 20px;
     }
-    .dashboard {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-    .card {
+    .game-dashboard {
       background-color: white;
       border-radius: 10px;
       padding: 20px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      width: 250px;
-      height: 150px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    }
+    .game-dashboard h2 {
+      color: #ff9800;
+    }
+    .game-btn {
+      background-color: #ffa726;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      margin: 10px;
     }
-    .card:hover {
-      transform: scale(1.05);
+    .game-btn:hover {
+      background-color: #fb8c00;
     }
-    .card img {
-      width: 50px;
-      height: 50px;
-      margin-bottom: 10px;
+    .quiz-container {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
-    .card h3 {
-      font-size: 18px;
+    .quiz-container h3 {
       color: #ffa726;
     }
-    .game-section {
-      display: none;
+    .question {
+      margin: 20px 0;
+      font-size: 18px;
+    }
+    .answer-btn {
+      background-color: #ffa726;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .answer-btn:hover {
+      background-color: #fb8c00;
+    }
+    .progress-bar {
+      width: 100%;
+      background-color: #ffd54f;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+    .progress {
+      height: 20px;
+      width: 0;
+      background-color: #ffa726;
+      transition: width 0.3s;
+    }
+    .feedback {
+      font-size: 20px;
+      margin: 20px;
+    }
+    .feedback.correct {
+      color: #4caf50;
+    }
+    .feedback.wrong {
+      color: #f44336;
+    }
+    .timer {
+      font-size: 18px;
+      color: #e64a19;
+    }
+    .fact-box {
+      margin-top: 20px;
+      background-color: #fff3e0;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 16px;
+      color: #8d6e63;
     }
   </style>
 </head>
 <body>
   <div class="navbar">
-    <h1>MannerMate - Dashboard</h1>
-    <p>Welcome, Student!</p>
+    <h1>MannerMate - Educational Game</h1>
+    <p>Your Current Points: <span id="points">100</span></p>
   </div>
 
   <div class="content">
-    <div class="dashboard">
-      <div class="card" onclick="openSection('profile')">
-        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Profile">
-        <h3>Profile</h3>
-      </div>
-      <div class="card" onclick="openSection('assignments')">
-        <img src="https://cdn-icons-png.flaticon.com/512/847/847932.png" alt="Assignments">
-        <h3>Assignments</h3>
-      </div>
-      <div class="card" onclick="openSection('game')">
-        <img src="https://cdn-icons-png.flaticon.com/512/847/847971.png" alt="Game">
-        <h3>Game</h3>
-      </div>
+    <div class="game-dashboard">
+      <h2>Choose Your Subject</h2>
+      <button class="game-btn" onclick="startGame('Math')">Math</button>
+      <button class="game-btn" onclick="startGame('Science')">Science</button>
+      <button class="game-btn" onclick="startGame('English')">English</button>
+      <button class="game-btn" onclick="startGame('History')">History</button>
     </div>
 
-    <div id="profile" class="game-section">
-      <h2>Student Profile</h2>
-      <p>Here is your profile information.</p>
-    </div>
-
-    <div id="assignments" class="game-section">
-      <h2>Your Assignments</h2>
-      <p>Here are your current assignments.</p>
-    </div>
-
-    <div id="game" class="game-section">
-      <div class="game-dashboard">
-        <h2>Choose Your Subject</h2>
-        <button class="game-btn" onclick="startGame('Math')">Math</button>
-        <button class="game-btn" onclick="startGame('Science')">Science</button>
-        <button class="game-btn" onclick="startGame('English')">English</button>
-        <button class="game-btn" onclick="startGame('History')">History</button>
+    <div class="quiz-container" id="quiz">
+      <h3 id="subjectTitle"></h3>
+      <p class="question" id="question">Loading question...</p>
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
       </div>
-
-      <div class="quiz-container" id="quiz">
-        <h3 id="subjectTitle"></h3>
-        <p class="question" id="question">Loading question...</p>
-        <div class="progress-bar">
-          <div class="progress" id="progress"></div>
-        </div>
-        <p class="timer" id="timer">Time Left: 10s</p>
-        <button class="answer-btn" onclick="checkAnswer(1)">Option 1</button>
-        <button class="answer-btn" onclick="checkAnswer(2)">Option 2</button>
-        <button class="answer-btn" onclick="checkAnswer(3)">Option 3</button>
-        <button class="answer-btn" onclick="checkAnswer(4)">Option 4</button>
-        <p class="feedback" id="feedback"></p>
-        <div class="fact-box" id="factBox"></div>
-      </div>
+      <p class="timer" id="timer">Time Left: 10s</p>
+      <button class="answer-btn" onclick="checkAnswer(1)">Option 1</button>
+      <button class="answer-btn" onclick="checkAnswer(2)">Option 2</button>
+      <button class="answer-btn" onclick="checkAnswer(3)">Option 3</button>
+      <button class="answer-btn" onclick="checkAnswer(4)">Option 4</button>
+      <p class="feedback" id="feedback"></p>
+      <div class="fact-box" id="factBox"></div>
     </div>
   </div>
 
   <script>
-    const sections = document.querySelectorAll(".game-section");
-
-    function openSection(sectionId) {
-      sections.forEach(section => section.style.display = "none");
-      document.getElementById(sectionId).style.display = "block";
-    }
-
     let points = 100;
     let currentQuestionIndex = 0;
     let selectedSubject = "";
     let timer;
-    const timerDuration = 10;
+    const timerDuration = 10; // seconds
     let timeLeft = timerDuration;
 
     const quizData = {
@@ -153,7 +171,7 @@
       currentQuestionIndex = 0;
       document.querySelector(".game-dashboard").style.display = "none";
       document.getElementById("quiz").style.display = "block";
-      document.getElementById("subjectTitle").innerText = ${subject} Quiz;
+      document.getElementById("subjectTitle").innerText = `${subject} Quiz`;
       loadQuestion();
     }
 
@@ -164,19 +182,19 @@
       answerButtons.forEach((btn, index) => {
         btn.innerText = questionObj.options[index];
       });
-      document.getElementById("progress").style.width = ${
+      document.getElementById("progress").style.width = `${
         (currentQuestionIndex / quizData[selectedSubject].length) * 100
-      }%;
+      }%`;
       resetTimer();
     }
 
     function resetTimer() {
       clearInterval(timer);
       timeLeft = timerDuration;
-      document.getElementById("timer").innerText = Time Left: ${timeLeft}s;
+      document.getElementById("timer").innerText = `Time Left: ${timeLeft}s`;
       timer = setInterval(() => {
         timeLeft--;
-        document.getElementById("timer").innerText = Time Left: ${timeLeft}s;
+        document.getElementById("timer").innerText = `Time Left: ${timeLeft}s`;
         if (timeLeft <= 0) {
           clearInterval(timer);
           moveToNextQuestion();
@@ -191,13 +209,14 @@
       const factBox = document.getElementById("factBox");
       if (selectedOption === questionObj.correct) {
         points++;
+        document.getElementById("points").innerText = points;
         feedback.innerText = "🎉 Correct!";
         feedback.className = "feedback correct";
-        factBox.innerText = Fun Fact: ${questionObj.fact};
+        factBox.innerText = `Fun Fact: ${questionObj.fact}`;
       } else {
         feedback.innerText = "❌ Incorrect!";
         feedback.className = "feedback wrong";
-        factBox.innerText = Hint: ${questionObj.fact};
+        factBox.innerText = `Hint: ${questionObj.fact}`;
       }
       setTimeout(moveToNextQuestion, 3000);
     }
@@ -214,7 +233,7 @@
     }
 
     function endGame() {
-      document.getElementById("quiz").innerHTML = <h2>Quiz Complete!</h2><p>Your Score: ${points}</p>;
+      document.getElementById("quiz").innerHTML = `<h2>Quiz Complete!</h2><p>Your Score: ${points}</p>`;
     }
   </script>
 </body>
