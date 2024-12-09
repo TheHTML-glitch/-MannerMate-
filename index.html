@@ -114,17 +114,30 @@
     </div>
     <div class="content">
       <h2>Welcome! Please log in</h2>
-      <input type="text" id="username" placeholder="Enter your username" /><br><br>
-      <button onclick="login()">Login</button>
-      <p id="loginError" style="color:red; display:none;">Invalid Username! Please try again.</p>
+      <div>
+        <button onclick="showLoginForm('student')">Student Login</button>
+        <button onclick="showLoginForm('teacher')">Teacher Login</button>
+      </div>
+      <div id="studentLoginForm" style="display:none;">
+        <h3>Student Sign In</h3>
+        <input type="text" id="studentUsername" placeholder="Enter your username" /><br><br>
+        <button onclick="login('student')">Login as Student</button>
+        <p id="studentLoginError" style="color:red; display:none;">Invalid Username! Please try again.</p>
+      </div>
+      <div id="teacherLoginForm" style="display:none;">
+        <h3>Teacher Sign In</h3>
+        <input type="text" id="teacherUsername" placeholder="Enter your username" /><br><br>
+        <button onclick="login('teacher')">Login as Teacher</button>
+        <p id="teacherLoginError" style="color:red; display:none;">Invalid Username! Please try again.</p>
+      </div>
     </div>
   </div>
 
   <!-- Dashboard Section (visible after login) -->
   <div id="dashboardSection" style="display:none;">
     <div class="navbar">
-      <h1>MannerMate - Dashboard</h1>
-      <p id="welcomeMessage"></p>
+      <h1 id="dashboardTitle">MannerMate - Dashboard</h1>
+      <button onclick="logout()">Logout</button>
     </div>
 
     <div class="content">
@@ -144,7 +157,7 @@
       </div>
 
       <div id="profile" class="game-section">
-        <h2>Student Profile</h2>
+        <h2>Your Profile</h2>
         <p>Your profile information goes here.</p>
       </div>
 
@@ -178,6 +191,8 @@
     let points = 0;
     let currentQuestionIndex = 0;
     let selectedSubject = "";
+    let userRole = ""; // "student" or "teacher"
+    let username = ""; // Store the logged-in user's name
 
     // Example quiz data
     const quizData = {
@@ -191,15 +206,44 @@
       ]
     };
 
-    function login() {
-      const username = document.getElementById("username").value;
-      if (username) {
+    function showLoginForm(role) {
+      if (role === 'student') {
+        document.getElementById("studentLoginForm").style.display = "block";
+        document.getElementById("teacherLoginForm").style.display = "none";
+      } else {
+        document.getElementById("studentLoginForm").style.display = "none";
+        document.getElementById("teacherLoginForm").style.display = "block";
+      }
+    }
+
+    function login(role) {
+      const usernameInput = role === 'student' ? document.getElementById("studentUsername").value : document.getElementById("teacherUsername").value;
+      if (usernameInput) {
+        username = usernameInput;
+        userRole = role;
         document.getElementById("loginSection").style.display = "none";
         document.getElementById("dashboardSection").style.display = "block";
-        document.getElementById("welcomeMessage").innerText = `Welcome, ${username}!`;
+        document.getElementById("dashboardTitle").innerText = `Welcome ${role.charAt(0).toUpperCase() + role.slice(1)}, ${username}`;
+        document.getElementById("studentLoginError").style.display = "none";
+        document.getElementById("teacherLoginError").style.display = "none";
       } else {
-        document.getElementById("loginError").style.display = "block";
+        if (role === 'student') {
+          document.getElementById("studentLoginError").style.display = "block";
+        } else {
+          document.getElementById("teacherLoginError").style.display = "block";
+        }
       }
+   
+    }
+
+    function logout() {
+      // Reset the user state and show the login page again
+      username = "";
+      userRole = "";
+      document.getElementById("dashboardSection").style.display = "none";
+      document.getElementById("loginSection").style.display = "block";
+      document.getElementById("studentLoginForm").style.display = "none";
+      document.getElementById("teacherLoginForm").style.display = "none";
     }
 
     function openSection(sectionId) {
@@ -242,6 +286,5 @@
       }
     }
   </script>
-
 </body>
 </html>
