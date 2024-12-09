@@ -68,11 +68,10 @@
       color: #ffa726;
     }
 
-    .game-section {
+    .game-section, .assignments-section, .profile-section {
       display: none;
     }
 
-    /* Game specific styles */
     .game-btn {
       background-color: #ffa726;
       border: none;
@@ -102,6 +101,30 @@
 
     .wrong {
       color: red;
+    }
+
+    .assignments-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .assignment-item {
+      margin: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .complete-btn {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .complete-btn:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
@@ -156,16 +179,32 @@
         </div>
       </div>
 
-      <div id="profile" class="game-section">
+      <!-- Profile Section -->
+      <div id="profile" class="profile-section">
         <h2>Your Profile</h2>
         <p>Your profile information goes here.</p>
       </div>
 
-      <div id="assignments" class="game-section">
-        <h2>Your Assignments</h2>
-        <p>Here are your current assignments.</p>
+      <!-- Assignments Section -->
+      <div id="assignments" class="assignments-section">
+        <h2>Daily Tasks</h2>
+        <ul class="assignments-list">
+          <li class="assignment-item">
+            <span>Complete Math Assignment 1</span>
+            <button class="complete-btn" onclick="markTaskComplete(1)">Complete</button>
+          </li>
+          <li class="assignment-item">
+            <span>Read Chapter 3 of Science Book</span>
+            <button class="complete-btn" onclick="markTaskComplete(2)">Complete</button>
+          </li>
+          <li class="assignment-item">
+            <span>Practice English Writing</span>
+            <button class="complete-btn" onclick="markTaskComplete(3)">Complete</button>
+          </li>
+        </ul>
       </div>
 
+      <!-- Game Section -->
       <div id="game" class="game-section">
         <div class="game-dashboard">
           <h2>Choose Your Subject</h2>
@@ -207,47 +246,40 @@
     };
 
     function showLoginForm(role) {
-      if (role === 'student') {
+      if (role === "student") {
         document.getElementById("studentLoginForm").style.display = "block";
         document.getElementById("teacherLoginForm").style.display = "none";
       } else {
-        document.getElementById("studentLoginForm").style.display = "none";
         document.getElementById("teacherLoginForm").style.display = "block";
+        document.getElementById("studentLoginForm").style.display = "none";
       }
     }
 
     function login(role) {
-      const usernameInput = role === 'student' ? document.getElementById("studentUsername").value : document.getElementById("teacherUsername").value;
-      if (usernameInput) {
-        username = usernameInput;
+      const usernameField = role === "student" ? document.getElementById("studentUsername") : document.getElementById("teacherUsername");
+      const username = usernameField.value;
+
+      if (username) {
         userRole = role;
+        username = username;
         document.getElementById("loginSection").style.display = "none";
         document.getElementById("dashboardSection").style.display = "block";
         document.getElementById("dashboardTitle").innerText = `Welcome ${role.charAt(0).toUpperCase() + role.slice(1)}, ${username}`;
-        document.getElementById("studentLoginError").style.display = "none";
-        document.getElementById("teacherLoginError").style.display = "none";
       } else {
-        if (role === 'student') {
-          document.getElementById("studentLoginError").style.display = "block";
-        } else {
-          document.getElementById("teacherLoginError").style.display = "block";
-        }
+        const errorField = role === "student" ? document.getElementById("studentLoginError") : document.getElementById("teacherLoginError");
+        errorField.style.display = "block";
       }
-   
     }
 
     function logout() {
-      // Reset the user state and show the login page again
       username = "";
       userRole = "";
       document.getElementById("dashboardSection").style.display = "none";
       document.getElementById("loginSection").style.display = "block";
-      document.getElementById("studentLoginForm").style.display = "none";
-      document.getElementById("teacherLoginForm").style.display = "none";
     }
 
     function openSection(sectionId) {
-      const sections = document.querySelectorAll(".game-section");
+      const sections = document.querySelectorAll(".game-section, .assignments-section, .profile-section");
       sections.forEach(section => section.style.display = "none");
       document.getElementById(sectionId).style.display = "block";
     }
@@ -255,6 +287,7 @@
     function startGame(subject) {
       selectedSubject = subject;
       currentQuestionIndex = 0;
+      points = 0;
       document.querySelector(".game-dashboard").style.display = "none";
       document.getElementById("quiz").style.display = "block";
       document.getElementById("subjectTitle").innerText = `${subject} Quiz`;
@@ -285,6 +318,13 @@
         document.getElementById("quiz").innerHTML = `<h2>Quiz Complete!</h2><p>Your Score: ${points}</p>`;
       }
     }
+
+    function markTaskComplete(taskId) {
+      alert(`Task ${taskId} completed!`);
+    }
   </script>
+
 </body>
 </html>
+
+      
